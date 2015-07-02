@@ -25,7 +25,8 @@ public final class R {
         public static final int icon=0x7f020001;
     }
     public static final class id {
-        public static final int count=0x7f070003;
+        public static final int button1=0x7f070004;
+        public static final int count1=0x7f070003;
         public static final int xbox=0x7f070000;
         public static final int ybox=0x7f070001;
         public static final int zbox=0x7f070002;
