@@ -2,9 +2,19 @@ package com.android.eyeeyes;
 
 
 
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.io.*;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.hardware.SensorManager;
 import android.hardware.SensorListener;
@@ -19,10 +29,11 @@ public class eyeeyes extends Activity implements SensorListener { //用來實作感測
 	TextView yViewA;
 	TextView zViewA;
 	TextView c;
+	Button bt1=null;
 	int count = 0;
+	String ggmaple555=null;
 	float xx,yy,zz;
-	
-	
+	Socket connect;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,11 +43,50 @@ public class eyeeyes extends Activity implements SensorListener { //用來實作感測
         xViewA = (TextView) findViewById(R.id.xbox); //取得TextView元件
         yViewA = (TextView) findViewById(R.id.ybox);
         zViewA = (TextView) findViewById(R.id.zbox);
-        c = (TextView) findViewById(R.id.count);
+        bt1=(Button) findViewById(R.id.button1);
+        c = (TextView) findViewById(R.id.count1);
+        try {
+			connect = new Socket("192.168.56.1", 8888);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        bt1.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try{
+					TextView ggmod=(TextView) c;
+					PrintWriter pw=null;
 
+
+					byte[] bytelist=new byte[256];
+
+
+					pw=new PrintWriter(connect.getOutputStream());
+
+
+					pw.write(c.getText()+"\n");
+					pw.flush();
+					count=0;
+					c.setText("count :" + count);
+					
+
+					}catch(Exception ex){
+						System.out.println(ex.toString());
+							
+					}
+				// TODO Auto-generated method stub
+			   
+			}
+		});
+   
     }
     
-    
+   
     													//onSensorChanged是每當感測器的質改變時即會呼叫此方法
     public void onSensorChanged(int sensor, float[] values) { //加速度值的改變
         synchronized (this) {
